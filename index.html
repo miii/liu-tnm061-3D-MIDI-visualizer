@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Midi test</title>
+	<link href="css/reset.css" type="text/css" rel="stylesheet">
+	<link href="css/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<div id="container"></div>
+
+<script src="js/three.min.js"></script>
+<script src="js/stream.js"></script>
+<script src="js/midifile.js"></script>
+<script src="js/midiloader.js"></script>
+<script src="js/threemusic.js"></script>
+<script>
+
+var midiObject = new MidiLoader().load('midi/test2.mid');
+var threeMusic;
+
+window.onMidiLoaded = function() {
+	console.log('Tracks: ', midiObject.getTracks());
+	console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
+	console.log('BPM: ', midiObject.getBPM());
+
+	threeMusic = new ThreeMusic().init();
+	animate();
+}
+
+function animate() {
+	// Request to be called again for next frame
+	requestAnimationFrame(animate);
+	threeMusic.render();
+}
+
+</script>
+
+</body>
+</html>
