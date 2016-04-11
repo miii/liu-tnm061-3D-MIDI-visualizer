@@ -1,0 +1,22 @@
+git clone <url>
+git status
+gid add <filnamn> / git add -A/git add .
+git commit -m "Meddelande"
+git push origin master (alt. branchnamn istället för master)
+git pull origin master (alt. branchnamn istället för master)
+
+
+Skapa hemsida mha github
+- skapa ett nytt repo med namnet
+ rcedermalm.github.io
+
+- klona repot och skapa en indexfil: index.html
+
+Kommandotolk
+ls = kolla innehåll
+cd mapp = gå in i mapp 
+cd .. = gå upp en mapp
+mkdir = skapa mapp
+redir = radera mapp
+
+
