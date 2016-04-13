@@ -13,7 +13,6 @@ var ThreeMusic = function() {
 	// Object3D ("Group") nodes and Mesh nodes
 	var sceneRoot = new THREE.Group();
 	var viewRotation = new THREE.Group();
-	var objectRotation = new THREE.Group();
 	var objectMesh;
 
 	var mouseDown = false;
@@ -77,6 +76,8 @@ var ThreeMusic = function() {
 
 	///////////////////////////
 
+	var note;
+
 	function init() {
 
 		container = document.getElementById('container');
@@ -91,18 +92,16 @@ var ThreeMusic = function() {
 		materialBox.wireframe = true;
 		objectMesh = new THREE.Mesh(geometryBox, materialBox);
 
-		var geometrySphere = new THREE.SphereGeometry(0.2);
-		objectMesh2 = new THREE.Mesh(geometrySphere, materialBox);
-
-
 		// Top-level node
 		scene.add(sceneRoot);
 
 		// Sun branch
 		sceneRoot.add(viewRotation);
-		viewRotation.add(objectRotation);
 		viewRotation.add(objectMesh);
-		objectRotation.add(objectMesh2);
+
+		note = new Note().create();
+		viewRotation.add(note.getOrbit());
+
 
 		renderer = new THREE.WebGLRenderer();
 		renderer.setClearColor(0x000000);
@@ -122,8 +121,6 @@ var ThreeMusic = function() {
 		camera.position.z = 15;
 		camera.lookAt( scene.position );
 
-		objectMesh2.position.x = 2;
-
 		return this;
 	}
 
@@ -136,11 +133,7 @@ var ThreeMusic = function() {
 			viewRotation.rotation.y = cameraRotY + (mouseX - mouseXnorm) * sensitivity;
 		}
 
-		//objectMesh2.position.z = 2 * Math.sin(time / 1000);
-		objectMesh2.position.x = 2 + 8 * Math.exp(-frame/30);
-
-		objectRotation.rotation.z -= 10 * (Math.PI / 180) / (1 + (objectMesh2.position.x/5));
-		//objectRotation.rotation.x += 0.01;
+		note.animate(frame);
 
 		// Render the scene
 		renderer.render(scene, camera);
