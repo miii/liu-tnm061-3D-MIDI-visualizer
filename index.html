@@ -25,13 +25,13 @@ window.onMidiLoaded = function() {
 	console.log('BPM: ', midiObject.getBPM());
 
 	threeMusic = new ThreeMusic().init();
-	animate();
+	animate(0);
 }
 
-function animate() {
+function animate(time) {
 	// Request to be called again for next frame
 	requestAnimationFrame(animate);
-	threeMusic.render();
+	threeMusic.render(time);
 }
 
 </script>

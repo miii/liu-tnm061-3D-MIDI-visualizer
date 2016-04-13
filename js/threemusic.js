@@ -1,17 +1,19 @@
 var ThreeMusic = function() {
 	var container;
 	var camera, scene, renderer;
-	
+	var frame = 0;
+
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
 	var cameraRotX = 0, cameraRotY = 0;
 
 	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;			
-	
+	var windowHalfY = window.innerHeight / 2;
+
 	// Object3D ("Group") nodes and Mesh nodes
 	var sceneRoot = new THREE.Group();
 	var viewRotation = new THREE.Group();
+	var objectRotation = new THREE.Group();
 	var objectMesh;
 
 	var mouseDown = false;
@@ -22,7 +24,7 @@ var ThreeMusic = function() {
 	var nearestDistance = 3;
 
 	var cameraFOV = 110;
-	
+
 	function _onWindowResize() {
 		windowHalfX = window.innerWidth / 2;
 		windowHalfY = window.innerHeight / 2;
@@ -63,7 +65,6 @@ var ThreeMusic = function() {
 			// User scrolled down
 			camera.position.z += 1;
 		}
-		console.log(camera.position.z);
 	}
 
 	function _getMousePos(event) {
@@ -75,32 +76,33 @@ var ThreeMusic = function() {
 	}
 
 	///////////////////////////
-	
+
 	function init() {
 
 		container = document.getElementById('container');
 
 		camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, 0.1, 10000);
-		camera.position.z = 5;
 
 		scene = new THREE.Scene();
-						
+
 		// Mesh
-		var geometryBox = new THREE.BoxGeometry(3, 3, 3);
+		var geometryBox = new THREE.BoxGeometry(1, 1, 1);
 		var materialBox = new THREE.MeshBasicMaterial();
 		materialBox.wireframe = true;
 		objectMesh = new THREE.Mesh(geometryBox, materialBox);
-						
-		// Mesh
-		objectMesh2 = new THREE.Mesh(geometryBox, materialBox);
+
+		var geometrySphere = new THREE.SphereGeometry(0.2);
+		objectMesh2 = new THREE.Mesh(geometrySphere, materialBox);
+
 
 		// Top-level node
 		scene.add(sceneRoot);
 
 		// Sun branch
 		sceneRoot.add(viewRotation);
+		viewRotation.add(objectRotation);
 		viewRotation.add(objectMesh);
-		viewRotation.add(objectMesh2);
+		objectRotation.add(objectMesh2);
 
 		renderer = new THREE.WebGLRenderer();
 		renderer.setClearColor(0x000000);
@@ -117,16 +119,16 @@ var ThreeMusic = function() {
 		// Set up the camera
 		camera.position.x = 0;
 		camera.position.y = 0;
+		camera.position.z = 15;
 		camera.lookAt( scene.position );
 
-		// Position objects
-		objectMesh2.position.x = 5;
+		objectMesh2.position.x = 2;
 
 		return this;
 	}
 
-	
-	function render() {
+
+	function render(time) {
 
 		// Perform animations
 		if (mouseDown) {
@@ -134,8 +136,15 @@ var ThreeMusic = function() {
 			viewRotation.rotation.y = cameraRotY + (mouseX - mouseXnorm) * sensitivity;
 		}
 
+		//objectMesh2.position.z = 2 * Math.sin(time / 1000);
+		objectMesh2.position.x = 2 + 8 * Math.exp(-frame/30);
+
+		objectRotation.rotation.z -= 10 * (Math.PI / 180) / (1 + (objectMesh2.position.x/5));
+		//objectRotation.rotation.x += 0.01;
+
 		// Render the scene
 		renderer.render(scene, camera);
+		frame++;
 	}
 
 	return {
