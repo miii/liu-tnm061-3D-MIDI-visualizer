@@ -14,25 +14,31 @@
 <script src="js/midi/midifile.js"></script>
 <script src="js/midi/midiloader.js"></script>
 <script src="js/class.note.js"></script>
-<script src="js/threemusic.js"></script>
+<script src="js/class.animator.js"></script>
 <script>
 
 var midiObject = new MidiLoader().load('midi/test2.mid');
-var threeMusic;
+var animator;
+
+function addNote() {
+	var note = new Note();
+	animator.onNoteAdded(note);
+}
 
 window.onMidiLoaded = function() {
 	console.log('Tracks: ', midiObject.getTracks());
 	console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
 	console.log('BPM: ', midiObject.getBPM());
 
-	threeMusic = new ThreeMusic().init();
+	animator = new Animator().init();
+	addNote();
 	animate(0);
 }
 
 function animate(time) {
 	// Request to be called again for next frame
 	requestAnimationFrame(animate);
-	threeMusic.render(time);
+	animator.render(time);
 }
 
 </script>

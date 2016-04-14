@@ -1,4 +1,4 @@
-var ThreeMusic = function() {
+var Animator = function() {
 	var container;
 	var camera, scene, renderer;
 	var frame = 0;
@@ -17,12 +17,18 @@ var ThreeMusic = function() {
 
 	var mouseDown = false;
 
-	/////////////
+	/////////////////////////////
 
 	var sensitivity = 3;
 	var nearestDistance = 3;
 
 	var cameraFOV = 110;
+
+	/////////////////////////////
+
+	var objects = [];
+
+	/////////////////////////////
 
 	function _onWindowResize() {
 		windowHalfX = window.innerWidth / 2;
@@ -74,9 +80,15 @@ var ThreeMusic = function() {
 		}
 	}
 
+	function onNoteAdded(note) {
+		note.create();
+		viewRotation.add(note.getOrbit());
+		objects.push(note);
+	}
+
 	///////////////////////////
 
-	var note;
+	//var note;
 
 	function init() {
 
@@ -99,8 +111,8 @@ var ThreeMusic = function() {
 		sceneRoot.add(viewRotation);
 		viewRotation.add(objectMesh);
 
-		note = new Note().create();
-		viewRotation.add(note.getOrbit());
+		//note = new Note().create();
+		//viewRotation.add(note.getOrbit());
 
 
 		renderer = new THREE.WebGLRenderer();
@@ -133,7 +145,11 @@ var ThreeMusic = function() {
 			viewRotation.rotation.y = cameraRotY + (mouseX - mouseXnorm) * sensitivity;
 		}
 
-		note.animate(frame);
+		for (i = 0; i < objects.length; i++) {
+			objects[i].animate(frame);
+		}
+
+		//note.animate(frame);
 
 		// Render the scene
 		renderer.render(scene, camera);
@@ -142,6 +158,7 @@ var ThreeMusic = function() {
 
 	return {
 		init: init,
-		render: render
+		render: render,
+		onNoteAdded: onNoteAdded
 	}
 }

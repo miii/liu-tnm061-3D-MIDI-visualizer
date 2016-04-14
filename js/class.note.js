@@ -30,8 +30,8 @@ var Note = function() {
 
     deltaFrame = frame - startFrame;
 
-    mesh.position.x = 2 + 8 * Math.exp(-deltaFrame/30);
-    orbit.rotation.z -= 10 * (Math.PI / 180) / (1 + (mesh.position.x/5));
+    mesh.position.x = 2 + 10 * Math.exp(-deltaFrame/30);
+    orbit.rotation.z -= 8 * (Math.PI / 180) / (1 + (mesh.position.x/5));
 
   }
 
