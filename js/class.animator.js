@@ -88,8 +88,6 @@ var Animator = function() {
 
 	///////////////////////////
 
-	//var note;
-
 	function init() {
 
 		container = document.getElementById('container');
@@ -110,9 +108,6 @@ var Animator = function() {
 		// Sun branch
 		sceneRoot.add(viewRotation);
 		viewRotation.add(objectMesh);
-
-		//note = new Note().create();
-		//viewRotation.add(note.getOrbit());
 
 
 		renderer = new THREE.WebGLRenderer();
@@ -135,8 +130,7 @@ var Animator = function() {
 
 		return this;
 	}
-
-
+	
 	function render(time) {
 
 		// Perform animations
@@ -148,8 +142,6 @@ var Animator = function() {
 		for (i = 0; i < objects.length; i++) {
 			objects[i].animate(frame);
 		}
-
-		//note.animate(frame);
 
 		// Render the scene
 		renderer.render(scene, camera);
