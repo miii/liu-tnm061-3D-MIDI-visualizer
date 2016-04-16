@@ -1,7 +1,6 @@
 var Animator = function() {
 	var container;
 	var camera, scene, renderer;
-	var frame = 0;
 
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
@@ -81,7 +80,7 @@ var Animator = function() {
 	}
 
 	function onNoteAdded(note) {
-		note.create();
+		note.spawn();
 		viewRotation.add(note.getOrbit());
 		objects.push(note);
 	}
@@ -130,8 +129,8 @@ var Animator = function() {
 
 		return this;
 	}
-	
-	function render(time) {
+
+	function render(frame) {
 
 		// Perform animations
 		if (mouseDown) {
@@ -145,7 +144,6 @@ var Animator = function() {
 
 		// Render the scene
 		renderer.render(scene, camera);
-		frame++;
 	}
 
 	return {

@@ -4,8 +4,11 @@ var Note = function() {
   var mesh;
 
   var startFrame = null;
+  var noteID = null;
 
-  function create() {
+  function spawn() {
+    console.log('Note spawned', noteID);
+
 	  orbit = new THREE.Group();
 
     var sphere = new THREE.SphereGeometry(0.2);
@@ -15,6 +18,12 @@ var Note = function() {
 		mesh = new THREE.Mesh(sphere, material);
 
     orbit.add(mesh);
+
+    return this;
+  }
+
+  function setNoteID(id) {
+    noteID = id;
 
     return this;
   }
@@ -36,7 +45,8 @@ var Note = function() {
   }
 
   return {
-    create: create,
+    spawn: spawn,
+    setNoteID, setNoteID,
     getOrbit: getOrbit,
     animate: animate
   }

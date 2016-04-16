@@ -14,31 +14,39 @@
 <script src="js/midi/midifile.js"></script>
 <script src="js/midi/midiloader.js"></script>
 <script src="js/class.note.js"></script>
-<script src="js/class.animator.js"></script>
+<script src="js/animator.js"></script>
+<script src="js/midirenderer.js"></script>
 <script>
 
-var midiObject = new MidiLoader().load('midi/test2.mid');
+var midiObject = new MidiLoader().load('midi/test4.mid');
 var animator;
+var midiRenderer;
 
-function addNote() {
-	var note = new Note();
-	animator.onNoteAdded(note);
-}
+window.onload = function() {
 
-window.onMidiLoaded = function() {
-	console.log('Tracks: ', midiObject.getTracks());
-	console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
-	console.log('BPM: ', midiObject.getBPM());
+	window.onMidiLoaded = function() {
+		console.log('Tracks: ', midiObject.getTracks());
+		console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
+		console.log('BPM: ', midiObject.getBPM());
 
-	animator = new Animator().init();
-	addNote();
-	animate(0);
-}
+		animator = new Animator().init();
+		midiRenderer = new MidiRenderer().init(midiObject, animator);
 
-function animate(time) {
-	// Request to be called again for next frame
-	requestAnimationFrame(animate);
-	animator.render(time);
+		animate(0);
+	}
+
+	var frame = 0;
+
+	function animate(time) {
+		// Request to be called again for next frame
+		requestAnimationFrame(animate);
+
+		midiRenderer.render(time);
+		animator.render(frame);
+
+		frame++;
+	}
+
 }
 
 </script>
