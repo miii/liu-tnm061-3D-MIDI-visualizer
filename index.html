@@ -13,32 +13,47 @@
 <script src="js/midi/stream.js"></script>
 <script src="js/midi/midifile.js"></script>
 <script src="js/midi/midiloader.js"></script>
-<script src="js/class.note.js"></script>
-<script src="js/class.animator.js"></script>
+<script src="js/classes/class.note.js"></script>
+<script src="js/classes/class.vector.js"></script>
+<script src="js/animator.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/midirenderer.js"></script>
 <script>
 
-var midiObject = new MidiLoader().load('midi/test2.mid');
+var midiObject = new MidiLoader().load('midi/test4.mid');
 var animator;
+var midiRenderer;
 
-function addNote() {
-	var note = new Note();
-	animator.onNoteAdded(note);
-}
+window.onload = function() {
 
-window.onMidiLoaded = function() {
-	console.log('Tracks: ', midiObject.getTracks());
-	console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
-	console.log('BPM: ', midiObject.getBPM());
+	window.onMidiLoaded = function() {
+		// Midi data
+		console.log('Tracks: ', midiObject.getTracks());
+		console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
+		console.log('BPM: ', midiObject.getBPM());
 
-	animator = new Animator().init();
-	addNote();
-	animate(0);
-}
+		// Initialize animator, physics and midirenderer
+		animator = new Animator().init();
+		window.Physics = new Physics().init();
+		midiRenderer = new MidiRenderer().init(midiObject, animator);
 
-function animate(time) {
-	// Request to be called again for next frame
-	requestAnimationFrame(animate);
-	animator.render(time);
+		// Start rendering
+		animate(0);
+	}
+
+	var frame = 0;
+
+	function animate(time) {
+		// Request to be called again for next frame
+		requestAnimationFrame(animate);
+
+		// Render midi file and Three.js scene
+		midiRenderer.render(time);
+		animator.render(frame);
+
+		frame++;
+	}
+
 }
 
 </script>

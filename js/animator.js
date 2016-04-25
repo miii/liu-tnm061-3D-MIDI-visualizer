@@ -1,7 +1,6 @@
 var Animator = function() {
 	var container;
 	var camera, scene, renderer;
-	var frame = 0;
 
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
@@ -81,14 +80,12 @@ var Animator = function() {
 	}
 
 	function onNoteAdded(note) {
-		note.create();
-		viewRotation.add(note.getOrbit());
+		note.spawn();
+		viewRotation.add(note.getMesh());
 		objects.push(note);
 	}
 
 	///////////////////////////
-
-	//var note;
 
 	function init() {
 
@@ -110,9 +107,6 @@ var Animator = function() {
 		// Sun branch
 		sceneRoot.add(viewRotation);
 		viewRotation.add(objectMesh);
-
-		//note = new Note().create();
-		//viewRotation.add(note.getOrbit());
 
 
 		renderer = new THREE.WebGLRenderer();
@@ -136,8 +130,7 @@ var Animator = function() {
 		return this;
 	}
 
-
-	function render(time) {
+	function render(frame) {
 
 		// Perform animations
 		if (mouseDown) {
@@ -149,11 +142,8 @@ var Animator = function() {
 			objects[i].animate(frame);
 		}
 
-		//note.animate(frame);
-
 		// Render the scene
 		renderer.render(scene, camera);
-		frame++;
 	}
 
 	return {

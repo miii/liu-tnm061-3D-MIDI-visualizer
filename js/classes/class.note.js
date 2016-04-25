@@ -1,49 +1,89 @@
-
-
 var Note = function() {
 
-  var orbit; // Rotation orbit
   var mesh;
 
   var startFrame = null;
+  var noteID = null;
 
-  function create() {
-	  orbit = new THREE.Group();
+  var mass = null;
+  var velocity = null;
 
+  function spawn() {
+    console.log('Note spawned', noteID);
+
+    // Create sphere, colors should be defined here
     var sphere = new THREE.SphereGeometry(0.2);
     var material = new THREE.MeshBasicMaterial();
     material.wireframe = true;
 
 		mesh = new THREE.Mesh(sphere, material);
 
-    orbit.add(mesh);
+    var x = Math.random() * 5; // To be deleted?
+    console.log(x); // To be deleted?
+
+    // Object mass (atm: random values between 0-5)
+    mass = x;
+
+    // Initial velocity
+    velocity = new Vector().create(-10, 4);
+
+    // Object start position
+    mesh.position.x = 3;
+    mesh.position.y = 3;
 
     return this;
   }
 
-  function getOrbit() {
-    return orbit;
+  // Used by midirender.js
+  function setNoteID(id) {
+    noteID = id;
+
+    return this;
   }
 
+  // Used by animator.js
+  function getMesh() {
+    return mesh;
+  }
+
+  // Used by physics.js
+  function getPosition() {
+    return mesh.position;
+  }
+
+    // Used by physics.js
+  function getVelocity() {
+    return velocity;
+  }
+
+  // Used by physics.js
+  function getMass() {
+    return mass;
+  }
+
+  // Used by animator.js
   function animate(frame) {
 
-    if (startFrame == null)
-      startFrame = frame;
+    // Calculate acceleration and new velocity
+    window.Physics.affect(this);
 
-    deltaFrame = frame - startFrame;
-
-    mesh.position.x = 2 + 10 * Math.exp(-deltaFrame/30);
-    orbit.rotation.z -= 8 * (Math.PI / 180) / (1 + (mesh.position.x/5));
+    // Translate the object
+    window.Physics.render(this);
 
   }
 
   return {
-    create: create,
-    getOrbit: getOrbit,
+    spawn: spawn,
+    setNoteID, setNoteID,
+    getMesh: getMesh,
+    getPosition: getPosition,
+    getVelocity: getVelocity,
+    getMass: getMass,
     animate: animate
   }
 
 }
+
 
 window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c', 
 					   '5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
@@ -56,8 +96,3 @@ window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00
 					   'f21c03', 'e9820f', 'fbb002', 'f6c458', 'fcdc7f', 'e1ef18', '8ef034', 'acf1c6', '18ebf1', 'c098f1', 'efb2f1', 'f115c6',
 					   'fd361c', 'f79d1e', 'ffbe21', 'fbd06d', 'fce090', 'edf826', 'abfa48', 'bef9d5', '00f5fa', 'd1aefa', 'f73bfa', 'fa2ad7',
 					   'ff8061', 'fda924', 'ffc447', 'fcd575', 'fde396', 'f3fd2a', 'a5ff44', 'c2fedb', '15fafe', 'd7b3fe', 'fc33fe', 'fe29d8'];
-
-
-
-
-
