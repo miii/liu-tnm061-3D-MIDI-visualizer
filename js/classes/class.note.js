@@ -11,13 +11,17 @@ var Note = function() {
   function spawn() {
     console.log('Note spawned', noteID);
 
-    // Create sphere, colors should be defined here
+    // Create sphere, colors are defined here
     var sphere = new THREE.SphereGeometry(0.2);
-    var material = new THREE.MeshBasicMaterial();
+	
+	var ColorOfSphere = "#" + note_colours[noteID];	
+	var color = new THREE.Color(ColorOfSphere);	
+    var material = new THREE.MeshBasicMaterial({color: color.getHex()});
+	
     material.wireframe = true;
 
 		mesh = new THREE.Mesh(sphere, material);
-
+		
     var x = Math.random() * 5; // To be deleted?
     console.log(x); // To be deleted?
 
