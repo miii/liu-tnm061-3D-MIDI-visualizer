@@ -18,7 +18,7 @@ var Note = function() {
 	var color = new THREE.Color(ColorOfSphere);	
     var material = new THREE.MeshBasicMaterial({color: color.getHex()});
 	
-    material.wireframe = true;
+    //material.wireframe = true;
 
 		mesh = new THREE.Mesh(sphere, material);
 		
@@ -32,8 +32,9 @@ var Note = function() {
     velocity = new Vector().create(-10, 4);
 
     // Object start position
-    mesh.position.x = 3;
-    mesh.position.y = 3;
+	var posID = noteID%12;
+    mesh.position.x = note_positions[posID][0];
+    mesh.position.y = note_positions[posID][1];
 
     return this;
   }
@@ -100,3 +101,7 @@ window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00
 					   'f21c03', 'e9820f', 'fbb002', 'f6c458', 'fcdc7f', 'e1ef18', '8ef034', 'acf1c6', '18ebf1', 'c098f1', 'efb2f1', 'f115c6',
 					   'fd361c', 'f79d1e', 'ffbe21', 'fbd06d', 'fce090', 'edf826', 'abfa48', 'bef9d5', '00f5fa', 'd1aefa', 'f73bfa', 'fa2ad7',
 					   'ff8061', 'fda924', 'ffc447', 'fcd575', 'fde396', 'f3fd2a', 'a5ff44', 'c2fedb', '15fafe', 'd7b3fe', 'fc33fe', 'fe29d8'];
+					 
+					 
+					 
+window.note_positions = [[3,3], [0,3], [3,0], [3,-3], [-3,3], [-3,-3], [0, -3], [-3, 0], [4, 4], [4,0], [0,4], [-4,-4]];
