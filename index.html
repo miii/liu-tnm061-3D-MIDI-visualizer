@@ -13,8 +13,10 @@
 <script src="js/midi/stream.js"></script>
 <script src="js/midi/midifile.js"></script>
 <script src="js/midi/midiloader.js"></script>
-<script src="js/class.note.js"></script>
+<script src="js/classes/class.note.js"></script>
+<script src="js/classes/class.vector.js"></script>
 <script src="js/animator.js"></script>
+<script src="js/physics.js"></script>
 <script src="js/midirenderer.js"></script>
 <script>
 
@@ -25,13 +27,17 @@ var midiRenderer;
 window.onload = function() {
 
 	window.onMidiLoaded = function() {
+		// Midi data
 		console.log('Tracks: ', midiObject.getTracks());
 		console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
 		console.log('BPM: ', midiObject.getBPM());
 
+		// Initialize animator, physics and midirenderer
 		animator = new Animator().init();
+		window.Physics = new Physics().init();
 		midiRenderer = new MidiRenderer().init(midiObject, animator);
 
+		// Start rendering
 		animate(0);
 	}
 
@@ -41,6 +47,7 @@ window.onload = function() {
 		// Request to be called again for next frame
 		requestAnimationFrame(animate);
 
+		// Render midi file and Three.js scene
 		midiRenderer.render(time);
 		animator.render(frame);
 

@@ -81,7 +81,7 @@ var Animator = function() {
 
 	function onNoteAdded(note) {
 		note.spawn();
-		viewRotation.add(note.getOrbit());
+		viewRotation.add(note.getMesh());
 		objects.push(note);
 	}
 
