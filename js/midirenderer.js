@@ -3,8 +3,9 @@ var MidiRenderer = function() {
   var animator = null;
   var midi;
   var notes;
+  var player = null;
 
-  var offsetDelay = 100; // add delay to fix animation bug (ms)
+  var offsetDelay = 30; // add delay to fix animation bug (ms)
 
   // Method to add note to scene
   function _addNote(noteID) {
@@ -28,6 +29,11 @@ var MidiRenderer = function() {
   function render(time) {
     // Get current tick
     var tick = _timeToTicks(time);
+
+    if (player != null) {
+      player.play();
+      player = null;
+    }
 
     var nArray = notes;
     // Loop through all non-played notes
@@ -54,9 +60,14 @@ var MidiRenderer = function() {
     return this;
   }
 
+  function setPlayer(p) {
+    player = p;
+  }
+
   return {
     init: init,
-    render: render
+    render: render,
+    setPlayer: setPlayer
   }
 
 }

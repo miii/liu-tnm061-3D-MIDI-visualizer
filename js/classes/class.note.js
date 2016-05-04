@@ -12,29 +12,35 @@ var Note = function() {
     console.log('Note spawned', noteID);
 
     // Create sphere, colors are defined here
-    var sphere = new THREE.SphereGeometry(0.2);
-	
-	var ColorOfSphere = "#" + note_colours[noteID];	
-	var color = new THREE.Color(ColorOfSphere);	
-    var material = new THREE.MeshBasicMaterial({color: color.getHex()});
-	
+    var sphere = new THREE.SphereGeometry(0.5);
+
+    var ColorOfSphere = "#" + note_colours[noteID];
+    //var ColorOfSphere = window.Colors.getColorByNoteID(noteID);
+    var color = new THREE.Color(ColorOfSphere);
+    var material = new THREE.MeshLambertMaterial({color: color.getHex()});
+
     //material.wireframe = true;
 
 		mesh = new THREE.Mesh(sphere, material);
-		
-    var x = Math.random() * 5; // To be deleted?
+
+    var x = 1 + Math.random() * 4; // To be deleted?
     console.log(x); // To be deleted?
 
     // Object mass (atm: random values between 0-5)
     mass = x;
 
     // Initial velocity
-    velocity = new Vector().create(-10, 4);
+    velocity = new Vector().create(20, 20);
 
     // Object start position
-	var posID = noteID%12;
+    /*var posID = noteID%12;
     mesh.position.x = note_positions[posID][0];
-    mesh.position.y = note_positions[posID][1];
+    mesh.position.y = note_positions[posID][1];*/
+
+    var period = 4;
+    var radius = 20;
+    mesh.position.x = radius * Math.cos(noteID / 127 * (period * 2 * Math.PI));
+    mesh.position.y = radius * Math.sin(noteID / 127 * (period * 2 * Math.PI));
 
     return this;
   }
@@ -69,6 +75,8 @@ var Note = function() {
   // Used by animator.js
   function animate(frame) {
 
+    window.Physics.updateSlowdownCoefficients(frame);
+
     // Calculate acceleration and new velocity
     window.Physics.affect(this);
 
@@ -79,7 +87,7 @@ var Note = function() {
 
   return {
     spawn: spawn,
-    setNoteID, setNoteID,
+    setNoteID: setNoteID,
     getMesh: getMesh,
     getPosition: getPosition,
     getVelocity: getVelocity,
@@ -90,7 +98,7 @@ var Note = function() {
 }
 
 
-window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c', 
+window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
 					   '5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
 					   '5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
 					   '5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
@@ -101,7 +109,7 @@ window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00
 					   'f21c03', 'e9820f', 'fbb002', 'f6c458', 'fcdc7f', 'e1ef18', '8ef034', 'acf1c6', '18ebf1', 'c098f1', 'efb2f1', 'f115c6',
 					   'fd361c', 'f79d1e', 'ffbe21', 'fbd06d', 'fce090', 'edf826', 'abfa48', 'bef9d5', '00f5fa', 'd1aefa', 'f73bfa', 'fa2ad7',
 					   'ff8061', 'fda924', 'ffc447', 'fcd575', 'fde396', 'f3fd2a', 'a5ff44', 'c2fedb', '15fafe', 'd7b3fe', 'fc33fe', 'fe29d8'];
-					 
-					 
-					 
+
+
+
 window.note_positions = [[3,3], [0,3], [3,0], [3,-3], [-3,3], [-3,-3], [0, -3], [-3, 0], [4, 4], [4,0], [0,4], [-4,-4]];

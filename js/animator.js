@@ -1,6 +1,7 @@
 var Animator = function() {
 	var container;
 	var camera, scene, renderer;
+	var light;
 
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
@@ -83,6 +84,7 @@ var Animator = function() {
 		note.spawn();
 		viewRotation.add(note.getMesh());
 		objects.push(note);
+		window.Physics.resetSlowdown();
 	}
 
 	///////////////////////////
@@ -95,6 +97,10 @@ var Animator = function() {
 
 		scene = new THREE.Scene();
 
+		//scene.fog = new THREE.FogExp2(0x000000, 0.02);
+		var amb = new THREE.AmbientLight(0x333333);
+		scene.add(amb);
+
 		// Mesh
 		var geometryBox = new THREE.BoxGeometry(1, 1, 1);
 		var materialBox = new THREE.MeshBasicMaterial();
@@ -106,7 +112,23 @@ var Animator = function() {
 
 		// Sun branch
 		sceneRoot.add(viewRotation);
-		viewRotation.add(objectMesh);
+		//viewRotation.add(objectMesh);
+
+		light = new THREE.DirectionalLight(0xffffff, 1);
+		light.position.set(0, 0, 1);
+		light.target.position.set(0, 0, 0);
+		light.intensity = 2;
+		viewRotation.add(light);
+
+		var radius = 20;
+    segments = 64;
+    material = new THREE.LineBasicMaterial({color: 0x333333});
+    geometry = new THREE.CircleGeometry( radius, segments );
+
+		// Remove center vertex
+		geometry.vertices.shift();
+
+		viewRotation.add( new THREE.Line( geometry, material ) );
 
 
 		renderer = new THREE.WebGLRenderer();
@@ -124,7 +146,7 @@ var Animator = function() {
 		// Set up the camera
 		camera.position.x = 0;
 		camera.position.y = 0;
-		camera.position.z = 15;
+		camera.position.z = 25;
 		camera.lookAt( scene.position );
 
 		return this;
@@ -140,6 +162,7 @@ var Animator = function() {
 
 		for (i = 0; i < objects.length; i++) {
 			objects[i].animate(frame);
+			objects[i].getMesh().position.z -= 1/30;
 		}
 
 		// Render the scene

@@ -17,14 +17,19 @@
 <script src="js/classes/class.vector.js"></script>
 <script src="js/animator.js"></script>
 <script src="js/physics.js"></script>
+<script src="js/colors.js"></script>
 <script src="js/midirenderer.js"></script>
 <script>
 
-var midiObject = new MidiLoader().load('midi/test4.mid');
+var midiObject = new MidiLoader().load('midi/river2.mid');
 var animator;
 var midiRenderer;
 
 window.onload = function() {
+
+	var player = document.createElement('audio');
+	player.preload = true;
+	player.src = "midi/river2.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data
@@ -35,10 +40,14 @@ window.onload = function() {
 		// Initialize animator, physics and midirenderer
 		animator = new Animator().init();
 		window.Physics = new Physics().init();
+		window.Colors = new Colors();
 		midiRenderer = new MidiRenderer().init(midiObject, animator);
 
 		// Start rendering
-		animate(0);
+		player.oncanplaythrough = function() {
+			midiRenderer.setPlayer(player);
+			animate(0);
+		}
 	}
 
 	var frame = 0;
