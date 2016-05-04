@@ -36,6 +36,10 @@ var MidiRenderer = function() {
     }
 
     var nArray = notes;
+
+    if (nArray.length == 0)
+      animator.onMidiRendererCompleted();
+
     // Loop through all non-played notes
     for (i = 0; i < nArray.length; i++) {
       // If note should not be played, break the loop since array i sorted by time

@@ -30,6 +30,10 @@ var Animator = function() {
 
 	/////////////////////////////
 
+	var midiRenderActive = true;
+
+	/////////////////////////////
+
 	function _onWindowResize() {
 		windowHalfX = window.innerWidth / 2;
 		windowHalfY = window.innerHeight / 2;
@@ -85,6 +89,10 @@ var Animator = function() {
 		viewRotation.add(note.getMesh());
 		objects.push(note);
 		window.Physics.resetSlowdown();
+	}
+
+	function onMidiRendererCompleted() {
+		midiRenderActive = false;
 	}
 
 	///////////////////////////
@@ -162,7 +170,9 @@ var Animator = function() {
 
 		for (i = 0; i < objects.length; i++) {
 			objects[i].animate(frame);
-			objects[i].getMesh().position.z -= 1/30;
+
+			if (midiRenderActive)
+				objects[i].getMesh().position.z -= 1/30;
 		}
 
 		// Render the scene
@@ -172,6 +182,7 @@ var Animator = function() {
 	return {
 		init: init,
 		render: render,
-		onNoteAdded: onNoteAdded
+		onNoteAdded: onNoteAdded,
+		onMidiRendererCompleted: onMidiRendererCompleted
 	}
 }
