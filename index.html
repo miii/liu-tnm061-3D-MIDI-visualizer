@@ -21,7 +21,7 @@
 <script src="js/midirenderer.js"></script>
 <script>
 
-var midiObject = new MidiLoader().load('midi/test4.mid');
+var midiObject = new MidiLoader().load('midi/river2.mid');
 var animator;
 var midiRenderer;
 
@@ -29,7 +29,7 @@ window.onload = function() {
 
 	var player = document.createElement('audio');
 	player.preload = true;
-	player.src = "midi/test4.mp3";
+	player.src = "midi/river.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data

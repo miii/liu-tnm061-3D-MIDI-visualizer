@@ -13,6 +13,7 @@ var Animator = function() {
 	// Object3D ("Group") nodes and Mesh nodes
 	var sceneRoot = new THREE.Group();
 	var viewRotation = new THREE.Group();
+	var translationOrbit = new THREE.Group();
 	var objectMesh;
 
 	var mouseDown = false;
@@ -84,9 +85,29 @@ var Animator = function() {
 		}
 	}
 
+	
+	function _onKeyDown(event){
+		
+		console.log('eventID', event.keyCode);
+		
+		switch(event.keyCode){
+			case 38: {
+				console.log('arrow up');
+				translationOrbit.position.z+=0.3;
+				break;
+			}
+			case 40: {
+				console.log('arrow down');
+				translationOrbit.position.z-=0.3;
+				break;
+			}
+		}
+	
+	}
+	
 	function onNoteAdded(note) {
 		note.spawn();
-		viewRotation.add(note.getMesh());
+		translationOrbit.add(note.getMesh());
 		objects.push(note);
 		window.Physics.resetSlowdown();
 	}
@@ -120,6 +141,7 @@ var Animator = function() {
 
 		// Sun branch
 		sceneRoot.add(viewRotation);
+		viewRotation.add(translationOrbit);
 		//viewRotation.add(objectMesh);
 
 		light = new THREE.DirectionalLight(0xffffff, 1);
@@ -129,14 +151,14 @@ var Animator = function() {
 		viewRotation.add(light);
 
 		var radius = 20;
-    segments = 64;
-    material = new THREE.LineBasicMaterial({color: 0x333333});
-    geometry = new THREE.CircleGeometry( radius, segments );
+		segments = 64;
+		material = new THREE.LineBasicMaterial({color: 0x333333});
+		geometry = new THREE.CircleGeometry( radius, segments );
 
 		// Remove center vertex
 		geometry.vertices.shift();
 
-		viewRotation.add( new THREE.Line( geometry, material ) );
+		translationOrbit.add( new THREE.Line( geometry, material ) );
 
 
 		renderer = new THREE.WebGLRenderer();
@@ -150,6 +172,7 @@ var Animator = function() {
 		window.addEventListener('mouseup', _onMouseUp, false);
 		window.addEventListener('mousemove', _onMouseMove, false);
 		window.addEventListener('mousewheel', _onScroll, false);
+		window.addEventListener('keydown', _onKeyDown, false); 
 
 		// Set up the camera
 		camera.position.x = 0;
