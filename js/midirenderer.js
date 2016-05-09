@@ -8,8 +8,8 @@ var MidiRenderer = function() {
   var offsetDelay = 30; // add delay to fix animation bug (ms)
 
   // Method to add note to scene
-  function _addNote(noteID) {
-  	var note = new Note().setNoteID(noteID);
+  function _addNote(noteID, noteLength) {
+  	var note = new Note().setNoteID(noteID).setNoteLength(noteLength);
   	animator.onNoteAdded(note);
   }
 
@@ -47,7 +47,7 @@ var MidiRenderer = function() {
         break;
 
       // If note should be played, but has not been added to the scene, add it
-      _addNote(nArray[i].note);
+      _addNote(nArray[i].note, (nArray[i].end - nArray[i].start));
       // Remove the note from the array
       notes.splice(i, 1);
     }

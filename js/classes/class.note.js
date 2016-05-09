@@ -4,12 +4,14 @@ var Note = function() {
 
   var startFrame = null;
   var noteID = null;
+  var noteLength = null;
 
   var mass = null;
   var velocity = null;
 
   function spawn() {
     console.log('Note spawned', noteID);
+    console.log('Note length', noteLength);
 
     // Create sphere, colors are defined here
     var sphere = new THREE.SphereGeometry(0.5);
@@ -23,7 +25,7 @@ var Note = function() {
 
 		mesh = new THREE.Mesh(sphere, material);
 
-    var x = 1 + Math.random() * 4; // To be deleted?
+    var x = 1 + 2 * noteLength / 8192 + Math.random();
     console.log(x); // To be deleted?
 
     // Object mass (atm: random values between 0-5)
@@ -48,6 +50,13 @@ var Note = function() {
   // Used by midirender.js
   function setNoteID(id) {
     noteID = id;
+
+    return this;
+  }
+
+  // Used by midirender.js
+  function setNoteLength(length) {
+    noteLength = length;
 
     return this;
   }
@@ -88,6 +97,7 @@ var Note = function() {
   return {
     spawn: spawn,
     setNoteID: setNoteID,
+    setNoteLength: setNoteLength,
     getMesh: getMesh,
     getPosition: getPosition,
     getVelocity: getVelocity,
