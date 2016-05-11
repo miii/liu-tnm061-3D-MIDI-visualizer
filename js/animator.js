@@ -85,11 +85,11 @@ var Animator = function() {
 		}
 	}
 
-	
+
 	function _onKeyDown(event){
-		
+
 		console.log('eventID', event.keyCode);
-		
+
 		switch(event.keyCode){
 			case 38: {
 				console.log('arrow up');
@@ -102,9 +102,9 @@ var Animator = function() {
 				break;
 			}
 		}
-	
+
 	}
-	
+
 	function onNoteAdded(note) {
 		note.spawn();
 		translationOrbit.add(note.getMesh());
@@ -127,7 +127,7 @@ var Animator = function() {
 		scene = new THREE.Scene();
 
 		//scene.fog = new THREE.FogExp2(0x000000, 0.02);
-		var amb = new THREE.AmbientLight(0x333333);
+		var amb = new THREE.AmbientLight(0xCCCCCC);
 		scene.add(amb);
 
 		// Mesh
@@ -147,7 +147,7 @@ var Animator = function() {
 		light = new THREE.DirectionalLight(0xffffff, 1);
 		light.position.set(0, 0, 1);
 		light.target.position.set(0, 0, 0);
-		light.intensity = 2;
+		light.intensity = 0.4;
 		viewRotation.add(light);
 
 		var radius = 20;
@@ -172,7 +172,7 @@ var Animator = function() {
 		window.addEventListener('mouseup', _onMouseUp, false);
 		window.addEventListener('mousemove', _onMouseMove, false);
 		window.addEventListener('mousewheel', _onScroll, false);
-		window.addEventListener('keydown', _onKeyDown, false); 
+		window.addEventListener('keydown', _onKeyDown, false);
 
 		// Set up the camera
 		camera.position.x = 0;
