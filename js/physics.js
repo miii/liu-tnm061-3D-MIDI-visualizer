@@ -8,7 +8,7 @@ var Physics = function() {
   var precision = 3;
   // Sphere gravity
   // Default: 3
-  var gravity = 10;
+  var gravity = 20;
   // Animation speed
   // Default: 3
   var speed = 3;
@@ -79,12 +79,14 @@ var Physics = function() {
     vy = Math.round(pos.y * precision);
 
     // If outside vector field, still use nearest vector (x-axis)
-    if (Math.abs(vx) > vectorFieldSize * precision)
+    if (Math.abs(vx) > vectorFieldSize * precision){
       vx = (vx > 0 ? 1 : -1) * vectorFieldSize * precision;
+    }
 
     // If outside vector field, still use nearest vector (y-axis)
-    if (Math.abs(vy) > vectorFieldSize * precision)
+    if (Math.abs(vy) > vectorFieldSize * precision){
       vy = (vy > 0 ? 1 : -1) * vectorFieldSize * precision;
+    }
 
     // Find the index of the vector in the vector field array
     return (vx + center) + (center - vy) * grids * precision;
@@ -100,7 +102,9 @@ var Physics = function() {
   }
 
   function updateSlowdownCoefficients(frame) {
-    if (!slowdownEnabled) return;
+    if (!slowdownEnabled){
+      return;
+    }
 
     sceneFrame = frame;
 
@@ -121,14 +125,15 @@ var Physics = function() {
     var pos = note.getPosition();
     var vec = _getNearestVector(pos);
 
-    if (!vec)
+    if (!vec){
       console.warn('Nearest vector not found');
+    }
 
     // Mass should affect the velocity of the object
     var density = 1 / note.getMass();
 
     var distance = Math.sqrt(Math.pow(vectors[vec].x, 2) + Math.pow(vectors[vec].y, 2));
-    var denominator = velCompCoefficient == 0 ? 0 : (distance / velCompCoefficient);
+    var denominator = velCompCoefficient === 0 ? 0 : (distance / velCompCoefficient);
     var compensation = 1 / (1 + denominator);
 
     // Use acceleration (from the nearest vector) to affect the velocity
@@ -154,5 +159,5 @@ var Physics = function() {
     resetSlowdown: resetSlowdown,
     affect: affect,
     render: render
-  }
-}
+  };
+};

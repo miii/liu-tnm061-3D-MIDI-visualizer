@@ -27,17 +27,16 @@ var Note = function() {
 
     //GLOW
     var glowMaterial = new THREE.SpriteMaterial( {
-      map: map,
+      map: window.map,
       color: color.getHex(),
-      fog: true,
-      blending: THREE.AdditiveBlending,
-      transparent: false
+      transparent: false,
+      blending: THREE.AdditiveBlending
     } );
 
     var sprite = new THREE.Sprite( glowMaterial );
-    sprite.scale.set(1.4, 1.4, 1);
+    sprite.scale.set(2, 2, 1);
     mesh.add(sprite);
-    ///////
+    /////
 
     var x = 1 + 2 * noteLength / 8192 + Math.random();
     console.log(x); // To be deleted?
@@ -120,9 +119,9 @@ var Note = function() {
     getVelocity: getVelocity,
     getMass: getMass,
     animate: animate
-  }
+  };
 
-}
+};
 
 
 window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
@@ -140,5 +139,3 @@ window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00
 
 
 window.note_positions = [[3,3], [0,3], [3,0], [3,-3], [-3,3], [-3,-3], [0, -3], [-3, 0], [4, 4], [4,0], [0,4], [-4,-4]];
-
-var map = new THREE.TextureLoader().load( "images/glow_test.png" ); // GLOW Map

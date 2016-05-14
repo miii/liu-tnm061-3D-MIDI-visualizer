@@ -21,11 +21,17 @@
 <script src="js/midirenderer.js"></script>
 <script>
 
+
+
 var midiObject = new MidiLoader().load('midi/river.mid');
 var animator;
 var midiRenderer;
 
 window.onload = function() {
+
+
+window.map = new THREE.TextureLoader().load('images/glow.png');
+
 
 	var player = document.createElement('audio');
 	player.preload = true;
