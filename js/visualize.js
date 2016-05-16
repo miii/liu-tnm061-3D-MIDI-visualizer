@@ -2,10 +2,9 @@ var midiObject = new MidiLoader().load('midi/river.mid');
 var animator;
 var midiRenderer;
 
-// Preload glow texture
-window.map = new THREE.TextureLoader().load('images/glow.png');
-
 window.onload = function() {
+
+	window.map = new THREE.TextureLoader().load('images/glow.png');
 
 	var player = document.createElement('audio');
 	player.preload = true;
