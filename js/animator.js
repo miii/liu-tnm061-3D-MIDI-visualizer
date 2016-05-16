@@ -172,6 +172,9 @@ var Animator = function() {
 		light.intensity = 0.4;
 		viewRotation.add(light);
 
+		//var stars = new Stars().create().getParticleSystem();
+		//viewRotation.add(stars);
+
 		var radius = 20;
 		segments = 64;
 		material = new THREE.LineBasicMaterial({color: 0x333333});
@@ -199,7 +202,7 @@ var Animator = function() {
 		// Set up the camera
 		camera.position.x = 0;
 		camera.position.y = 0;
-		camera.position.z = 25;
+		camera.position.z = 30;
 		camera.lookAt( scene.position );
 
 		return this;
@@ -226,10 +229,15 @@ var Animator = function() {
 		renderer.render(scene, camera);
 	}
 
+	function renderOnce() {
+		renderer.render(scene, camera);
+	}
+
 	return {
 		init: init,
 		render: render,
 		onNoteAdded: onNoteAdded,
-		onMidiRendererCompleted: onMidiRendererCompleted
+		onMidiRendererCompleted: onMidiRendererCompleted,
+		renderOnce: renderOnce
 	}
 }
