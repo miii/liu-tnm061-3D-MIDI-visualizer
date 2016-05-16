@@ -108,8 +108,6 @@ var Animator = function() {
 			}
 			case 49: {
 				
-				console.log('1 pressed');
-				
 				// Position the camera to fit
 				tween = new TWEEN.Tween(camera.position).to(c1_position, 2000)
 				.onUpdate(function () {
