@@ -10,6 +10,7 @@
 <div id="container"></div>
 
 <script src="js/three.min.js"></script>
+<script src="js/Tween.js"></script>
 <script src="js/midi/stream.js"></script>
 <script src="js/midi/midifile.js"></script>
 <script src="js/midi/midiloader.js"></script>
@@ -23,7 +24,7 @@
 
 
 
-var midiObject = new MidiLoader().load('midi/river.mid');
+var midiObject = new MidiLoader().load('midi/furelise.mid');
 var animator;
 var midiRenderer;
 
@@ -35,7 +36,7 @@ window.map = new THREE.TextureLoader().load('images/glow.png');
 
 	var player = document.createElement('audio');
 	player.preload = true;
-	player.src = "midi/river2.mp3";
+	player.src = "midi/furelise.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data

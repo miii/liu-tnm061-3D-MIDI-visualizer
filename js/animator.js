@@ -2,6 +2,11 @@ var Animator = function() {
 	var container;
 	var camera, scene, renderer;
 	var light;
+	
+	//camera movement
+	var c1_position = {x:20, y:0, z:-5};
+	var c1_target = {x:0, y:0, z:0};
+	var tween;
 
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
@@ -101,6 +106,23 @@ var Animator = function() {
 				translationOrbit.position.z-=0.3;
 				break;
 			}
+			case 49: {
+				
+				console.log('1 pressed');
+				
+				// Position the camera to fit
+				tween = new TWEEN.Tween(camera.position).to(c1_position, 2000)
+				.onUpdate(function () {
+					camera.position.set(this.x, this.y, this.z);
+					camera.lookAt(new THREE.Vector3(0,0,0));
+				})
+				.onComplete(function () {
+					camera.lookAt(new THREE.Vector3(0,0,0));
+				})
+				.start();
+				
+				break;
+			}
 		}
 
 	}
@@ -198,6 +220,8 @@ var Animator = function() {
 				objects[i].getMesh().position.z -= 1/30;
 		}
 
+		TWEEN.update();
+		
 		// Render the scene
 		renderer.render(scene, camera);
 	}
