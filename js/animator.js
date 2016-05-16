@@ -85,11 +85,11 @@ var Animator = function() {
 		}
 	}
 
-	
+
 	function _onKeyDown(event){
-		
+
 		console.log('eventID', event.keyCode);
-		
+
 		switch(event.keyCode){
 			case 38: {
 				console.log('arrow up');
@@ -102,9 +102,9 @@ var Animator = function() {
 				break;
 			}
 		}
-	
+
 	}
-	
+
 	function onNoteAdded(note) {
 		note.spawn();
 		translationOrbit.add(note.getMesh());
@@ -150,6 +150,9 @@ var Animator = function() {
 		light.intensity = 2;
 		viewRotation.add(light);
 
+		//var stars = new Stars().create().getParticleSystem();
+		//viewRotation.add(stars);
+
 		var radius = 20;
 		segments = 64;
 		material = new THREE.LineBasicMaterial({color: 0x333333});
@@ -172,12 +175,12 @@ var Animator = function() {
 		window.addEventListener('mouseup', _onMouseUp, false);
 		window.addEventListener('mousemove', _onMouseMove, false);
 		window.addEventListener('mousewheel', _onScroll, false);
-		window.addEventListener('keydown', _onKeyDown, false); 
+		window.addEventListener('keydown', _onKeyDown, false);
 
 		// Set up the camera
 		camera.position.x = 0;
 		camera.position.y = 0;
-		camera.position.z = 25;
+		camera.position.z = 30;
 		camera.lookAt( scene.position );
 
 		return this;
@@ -202,10 +205,15 @@ var Animator = function() {
 		renderer.render(scene, camera);
 	}
 
+	function renderOnce() {
+		renderer.render(scene, camera);
+	}
+
 	return {
 		init: init,
 		render: render,
 		onNoteAdded: onNoteAdded,
-		onMidiRendererCompleted: onMidiRendererCompleted
+		onMidiRendererCompleted: onMidiRendererCompleted,
+		renderOnce: renderOnce
 	}
 }

@@ -3,7 +3,6 @@ var MidiRenderer = function() {
   var animator = null;
   var midi;
   var notes;
-  var player = null;
 
   var offsetDelay = 30; // add delay to fix animation bug (ms)
 
@@ -29,11 +28,6 @@ var MidiRenderer = function() {
   function render(time) {
     // Get current tick
     var tick = _timeToTicks(time);
-
-    if (player != null) {
-      player.play();
-      player = null;
-    }
 
     var nArray = notes;
 
@@ -64,14 +58,22 @@ var MidiRenderer = function() {
     return this;
   }
 
-  function setPlayer(p) {
-    player = p;
+  function play(player, animateFunc) {
+    animator.renderOnce();
+
+    player.onplaying = function() {
+      animateFunc();
+    }
+
+    player.oncanplaythrough = function() {
+      player.play();
+    }
   }
 
   return {
     init: init,
     render: render,
-    setPlayer: setPlayer
+    play: play
   }
 
 }
