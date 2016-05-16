@@ -127,7 +127,7 @@ var Animator = function() {
 		scene = new THREE.Scene();
 
 		//scene.fog = new THREE.FogExp2(0x000000, 0.02);
-		var amb = new THREE.AmbientLight(0x333333);
+		var amb = new THREE.AmbientLight(0xCCCCCC);
 		scene.add(amb);
 
 		// Mesh
@@ -147,7 +147,7 @@ var Animator = function() {
 		light = new THREE.DirectionalLight(0xffffff, 1);
 		light.position.set(0, 0, 1);
 		light.target.position.set(0, 0, 0);
-		light.intensity = 2;
+		light.intensity = 0.4;
 		viewRotation.add(light);
 
 		//var stars = new Stars().create().getParticleSystem();

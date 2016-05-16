@@ -25,6 +25,19 @@ var Note = function() {
 
 		mesh = new THREE.Mesh(sphere, material);
 
+    //GLOW
+    var glowMaterial = new THREE.SpriteMaterial( {
+      map: window.map,
+      color: color.getHex(),
+      transparent: false,
+      blending: THREE.AdditiveBlending
+    } );
+
+    var sprite = new THREE.Sprite( glowMaterial );
+    sprite.scale.set(2, 2, 1);
+    mesh.add(sprite);
+    /////
+
     var x = 1 + 2 * noteLength / 8192 + Math.random();
     console.log(x); // To be deleted?
 
@@ -46,6 +59,9 @@ var Note = function() {
 
     return this;
   }
+
+
+
 
   // Used by midirender.js
   function setNoteID(id) {
@@ -103,9 +119,9 @@ var Note = function() {
     getVelocity: getVelocity,
     getMass: getMass,
     animate: animate
-  }
+  };
 
-}
+};
 
 
 window.note_colours = ['5e0200', '5a1900', '8e5102', '8f5103', 'e59b03', '424e00', '0e3d00', '1a502a', '003f4f', '281151', '4d0151', '51002c',
