@@ -2,15 +2,11 @@ var Animator = function() {
 	var container;
 	var camera, scene, renderer;
 	var light;
-	
-	//camera movement
-	var c1_position = {x:20, y:0, z:-5};
-	var c1_target = {x:0, y:0, z:0};
-	var tween;
 
 	var mouseX = 0, mouseY = 0;
 	var mouseXnorm = 0, mouseYnorm = 0;
 	var cameraRotX = 0, cameraRotY = 0;
+	var cameraHelper = null;
 
 	var windowHalfX = window.innerWidth / 2;
 	var windowHalfY = window.innerHeight / 2;
@@ -52,6 +48,9 @@ var Animator = function() {
 
 	function _onMouseDown(event) {
 		mouseDown = true;
+
+		cameraRotX = viewRotation.rotation.x;
+		cameraRotY = viewRotation.rotation.y;
 
 		var mousePos = _getMousePos(event);
 		mouseXnorm = mousePos.x;
@@ -107,18 +106,14 @@ var Animator = function() {
 				break;
 			}
 			case 49: {
-				
-				// Position the camera to fit
-				tween = new TWEEN.Tween(camera.position).to(c1_position, 2000)
-				.onUpdate(function () {
-					camera.position.set(this.x, this.y, this.z);
-					camera.lookAt(new THREE.Vector3(0,0,0));
-				})
-				.onComplete(function () {
-					camera.lookAt(new THREE.Vector3(0,0,0));
-				})
-				.start();
-				
+
+				cameraHelper.animateTo({
+					x: Math.PI/4,
+					y: -Math.PI/4,
+					z: 0,
+					zoom: 40,
+				});
+
 				break;
 			}
 		}
@@ -173,6 +168,9 @@ var Animator = function() {
 		//var stars = new Stars().create().getParticleSystem();
 		//viewRotation.add(stars);
 
+		cameraHelper = new CameraHelper();
+		cameraHelper.setOrbit(viewRotation).setTransOrbit(translationOrbit).setCamera(camera);
+
 		var radius = 20;
 		segments = 64;
 		material = new THREE.LineBasicMaterial({color: 0x333333});
@@ -221,8 +219,6 @@ var Animator = function() {
 				objects[i].getMesh().position.z -= 1/30;
 		}
 
-		TWEEN.update();
-		
 		// Render the scene
 		renderer.render(scene, camera);
 	}
