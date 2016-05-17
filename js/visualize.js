@@ -1,4 +1,4 @@
-var midiObject = new MidiLoader().load('midi/river.mid');
+var midiObject = new MidiLoader().load('midi/furelise.mid');
 var animator;
 var midiRenderer;
 
@@ -8,7 +8,7 @@ window.onload = function() {
 
 	var player = document.createElement('audio');
 	player.preload = true;
-	player.src = "midi/river2.mp3";
+	player.src = "midi/furelise.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data

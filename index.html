@@ -21,63 +21,7 @@
 <script src="js/physics.js"></script>
 <script src="js/colors.js"></script>
 <script src="js/midirenderer.js"></script>
-<<<<<<< HEAD
-<script>
-
-
-
-var midiObject = new MidiLoader().load('midi/furelise.mid');
-var animator;
-var midiRenderer;
-
-window.onload = function() {
-
-
-window.map = new THREE.TextureLoader().load('images/glow.png');
-
-
-	var player = document.createElement('audio');
-	player.preload = true;
-	player.src = "midi/furelise.mp3";
-
-	window.onMidiLoaded = function() {
-		// Midi data
-		console.log('Tracks: ', midiObject.getTracks());
-		console.log('Ticks per beat: ', midiObject.getTicksPerBeat());
-		console.log('BPM: ', midiObject.getBPM());
-
-		// Initialize animator, physics and midirenderer
-		animator = new Animator().init();
-		window.Physics = new Physics().init();
-		window.Colors = new Colors();
-		midiRenderer = new MidiRenderer().init(midiObject, animator);
-
-		// Start rendering
-		player.oncanplaythrough = function() {
-			midiRenderer.setPlayer(player);
-			animate(0);
-		}
-	}
-
-	var frame = 0;
-
-	function animate(time) {
-		// Request to be called again for next frame
-		requestAnimationFrame(animate);
-
-		// Render midi file and Three.js scene
-		midiRenderer.render(time);
-		animator.render(frame);
-
-		frame++;
-	}
-
-}
-
-</script>
-=======
 <script src="js/visualize.js"></script>
->>>>>>> 2b9e66327609d5613566a78909924365e1d49e4b
 
 </body>
 </html>

@@ -4,7 +4,7 @@ var MidiRenderer = function() {
   var midi;
   var notes;
 
-  var offsetDelay = 30; // add delay to fix animation bug (ms)
+  var offsetDelay = 40; // add delay to fix animation bug (ms)
 
   // Method to add note to scene
   function _addNote(noteID, noteLength) {
