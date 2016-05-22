@@ -104,14 +104,30 @@ var Animator = function() {
 				break;
 			}
 			case 49: {
-
+				cameraHelper.animateTo({
+					x: 0,
+					y: 0,
+					z: 0,
+					zoom: 35,
+				});
+				break;
+			}
+			case 50: {
+				cameraHelper.animateTo({
+					x: 0,
+					y: -Math.PI/2,
+					z: 20,
+					zoom: 40,
+				});
+				break;
+			}
+			case 51: {
 				cameraHelper.animateTo({
 					x: Math.PI/4,
 					y: -Math.PI/4,
 					z: 0,
 					zoom: 40,
 				});
-
 				break;
 			}
 
