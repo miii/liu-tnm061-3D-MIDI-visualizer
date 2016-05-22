@@ -10,11 +10,11 @@ var Note = function() {
   var velocity = null;
 
   function spawn() {
-    console.log('Note spawned', noteID);
-    console.log('Note length', noteLength);
+    //console.log('Note spawned', noteID);
+    //console.log('Note length', noteLength);
 
     // Create sphere, colors are defined here
-    var sphere = new THREE.SphereGeometry(0.5);
+    var sphere = new THREE.SphereGeometry(0.5, 24);
 
     var ColorOfSphere = "#" + note_colours[noteID];
     //var ColorOfSphere = window.Colors.getColorByNoteID(noteID);
@@ -34,12 +34,12 @@ var Note = function() {
     } );
 
     var sprite = new THREE.Sprite( glowMaterial );
-    sprite.scale.set(2, 2, 1);
+    sprite.scale.set(2.5, 2.5, 1);
     mesh.add(sprite);
     /////
 
     var x = 1 + 2 * noteLength / 8192 + Math.random();
-    console.log(x); // To be deleted?
+    var x = 10;
 
     // Object mass (atm: random values between 0-5)
     mass = x;

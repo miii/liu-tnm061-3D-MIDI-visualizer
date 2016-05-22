@@ -16,6 +16,7 @@ var Animator = function() {
 	var viewRotation = new THREE.Group();
 	var translationOrbit = new THREE.Group();
 	var objectMesh;
+	var textMesh;
 
 	var mouseDown = false;
 
@@ -44,6 +45,7 @@ var Animator = function() {
 		camera.updateProjectionMatrix();
 
 		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.render(scene, camera);
 	}
 
 	function _onMouseDown(event) {
@@ -92,16 +94,12 @@ var Animator = function() {
 
 	function _onKeyDown(event){
 
-		console.log('eventID', event.keyCode);
-
 		switch(event.keyCode){
 			case 38: {
-				console.log('arrow up');
 				translationOrbit.position.z+=0.3;
 				break;
 			}
 			case 40: {
-				console.log('arrow down');
 				translationOrbit.position.z-=0.3;
 				break;
 			}
@@ -116,6 +114,10 @@ var Animator = function() {
 
 				break;
 			}
+
+			case 32:
+				viewRotation.remove(textMesh);
+				break;
 		}
 
 	}
@@ -142,7 +144,7 @@ var Animator = function() {
 		scene = new THREE.Scene();
 
 		//scene.fog = new THREE.FogExp2(0x000000, 0.02);
-		var amb = new THREE.AmbientLight(0xCCCCCC);
+		var amb = new THREE.AmbientLight(0xFFFFFF);
 		scene.add(amb);
 
 		// Mesh
@@ -162,7 +164,7 @@ var Animator = function() {
 		light = new THREE.DirectionalLight(0xffffff, 1);
 		light.position.set(0, 0, 1);
 		light.target.position.set(0, 0, 0);
-		light.intensity = 0.4;
+		light.intensity = 1.5;
 		viewRotation.add(light);
 
 		//var stars = new Stars().create().getParticleSystem();
@@ -181,6 +183,20 @@ var Animator = function() {
 
 		translationOrbit.add( new THREE.Line( geometry, material ) );
 
+		var loader = new THREE.FontLoader();
+		loader.load('fonts/roboto_regular.typeface.json', function (font) {
+			var textMaterial = new THREE.MeshLambertMaterial({
+	      color: 0x888888
+	    });
+			var textGeometry = new THREE.TextGeometry("Press space to start", {
+				font: font,
+				size: 2,
+				height: 0.1
+			});
+			textMesh = new THREE.Mesh(textGeometry, textMaterial);
+			textMesh.position.x = -12;
+			viewRotation.add(textMesh);
+		});
 
 		renderer = new THREE.WebGLRenderer();
 		renderer.setClearColor(0x000000);
@@ -216,7 +232,7 @@ var Animator = function() {
 			objects[i].animate(frame);
 
 			if (midiRenderActive)
-				objects[i].getMesh().position.z -= 1/30;
+				objects[i].getMesh().position.z -= 1/15;
 		}
 
 		// Render the scene

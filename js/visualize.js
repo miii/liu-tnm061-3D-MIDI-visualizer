@@ -1,6 +1,9 @@
-var midiObject = new MidiLoader().load('midi/furelise.mid');
+var midiObject = new MidiLoader().load('midi/pokemon2.mid');
 var animator;
 var midiRenderer;
+
+var animationStartTime = null;
+var playing = false;
 
 window.onload = function() {
 
@@ -8,7 +11,7 @@ window.onload = function() {
 
 	var player = document.createElement('audio');
 	player.preload = true;
-	player.src = "midi/furelise.mp3";
+	player.src = "midi/pokemon.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data
@@ -23,20 +26,44 @@ window.onload = function() {
 		midiRenderer = new MidiRenderer().init(midiObject, animator);
 
 		// Start rendering
-    midiRenderer.play(player, function() {
-      animate(0);
-    });
+		animator.renderOnce();
+
+		player.oncanplaythrough = function() {
+			window.addEventListener('keydown', function(event) {
+				if (event.keyCode != 32)
+					return;
+
+				midiRenderer.play(player, function() {
+					playing = true;
+		    });
+			}, false);
+		}
+
+		animate(null);
 
 	}
 
 	var frame = 0;
+	var deltaFrame;
 
 	function animate(time) {
+		if (time == null) {
+			requestAnimationFrame(animate);
+			return;
+		}
+
 		// Request to be called again for next frame
 		requestAnimationFrame(animate);
 
 		// Render midi file and Three.js scene
-		midiRenderer.render(time);
+		if (playing) {
+			if (animationStartTime == null)
+				animationStartTime = time;
+			deltaTime = time - animationStartTime;
+
+			midiRenderer.render(deltaTime);
+		}
+
 		animator.render(frame);
 
 		frame++;

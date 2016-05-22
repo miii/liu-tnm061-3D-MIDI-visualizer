@@ -6,7 +6,7 @@ var Colors = function() {
     // Note ID is a number 0-127
     // Most of them are between 60-95
 
-    var periods = 10;
+    var periods = 5;
     var freq = periods * 2 * Math.PI / 127;
 
     var w0 = 0;
