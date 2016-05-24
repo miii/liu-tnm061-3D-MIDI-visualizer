@@ -1,4 +1,4 @@
-var midiObject = new MidiLoader().load('midi/pokemon2.mid');
+var midiObject = new MidiLoader().load('midi/river.mid');
 var animator;
 var midiRenderer;
 
@@ -11,7 +11,7 @@ window.onload = function() {
 
 	var player = document.createElement('audio');
 	player.preload = true;
-	player.src = "midi/pokemon.mp3";
+	player.src = "midi/river2.mp3";
 
 	window.onMidiLoaded = function() {
 		// Midi data
