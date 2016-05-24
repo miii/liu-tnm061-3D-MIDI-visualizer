@@ -16,8 +16,8 @@ var Note = function() {
     // Create sphere, colors are defined here
     var sphere = new THREE.SphereGeometry(0.5, 24);
 
-    var ColorOfSphere = "#" + note_colours[noteID];
-    //var ColorOfSphere = window.Colors.getColorByNoteID(noteID);
+    //var ColorOfSphere = "#" + note_colours[noteID];
+    var ColorOfSphere = window.Colors.getColorByNoteID(noteID);
     var color = new THREE.Color(ColorOfSphere);
     var material = new THREE.MeshLambertMaterial({color: color.getHex()});
 

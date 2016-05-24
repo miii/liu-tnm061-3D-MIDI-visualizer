@@ -11,7 +11,7 @@ var Physics = function() {
   var gravity = 20;
   // Animation speed
   // Default: 3
-  var speed = 5;
+  var speed = 0.1;
   // When calculating new velocity, old velocity should be multiplied with this factor
   // Use values between 0.9-1
   // Default: 1 (this will not affect the velocity at all)
@@ -23,7 +23,7 @@ var Physics = function() {
   // Spiral force effect
   // Negative values will change direction, set to 0 to disable
   // Default: 0
-  var spiralForce = 5;
+  var spiralForce = 500;
 
   // Center of the vector field
   var center;
