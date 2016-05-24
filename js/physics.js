@@ -19,7 +19,7 @@ var Physics = function() {
   // Velocity distance compensation
   // Larger value means less compensation, set to 0 to disable
   // Default: 200
-  var velCompCoefficient = 250;
+  var velCompCoefficient = 0;
   // Spiral force effect
   // Negative values will change direction, set to 0 to disable
   // Default: 0
